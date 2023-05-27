@@ -13,7 +13,7 @@ public class Main {
                 System.out.println(players[i].getHand().getDeckArray()[j].toString());
             }
         }
-        System.out.println("\n Deck Remaining");
+        System.out.println("\nDeck Remaining");
         for (int i = 0; i < deck.deckArray.length; i++) {
             System.out.println(deck.deckArray[i].toString());
         }
