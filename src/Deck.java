@@ -26,6 +26,13 @@ public class Deck {
                 int index = ran.nextInt(marker.length);
                 if (marker[index] > 0) {
                     result[i] = inputDeck[index];
+                    try {
+                        if (((ActionCard) inputDeck[index]).actionComplete == true) {
+                            ((ActionCard) inputDeck[index]).actionComplete = false;
+                        }
+                    } catch (Exception e) {
+
+                    }
                     marker[index] = 0;
                     placed = true;
                 }
@@ -48,7 +55,7 @@ public class Deck {
                 }
             }
             for (int i = 0; i < 2; i++) {
-                output[index] = new ActionCard(0,13);
+                output[index] = new Card(0,13);
                 index++;
                 output[index] = new ActionCard(0,14);
                 index++;
@@ -64,6 +71,15 @@ public class Deck {
         }
         this.deckArray = parallel;
         return output;
+    }
+
+    public void take(Card card)  {
+        Card[] parallel = new Card[deckArray.length + 1];
+        for (int i = 0; i < deckArray.length; i++) {
+            parallel[i] = deckArray[i];
+        }
+        parallel[parallel.length - 1] = card;
+        deckArray = parallel;
     }
     public void deal(Player[] players) {
         for (int i = 0; i < 7; i++) {
