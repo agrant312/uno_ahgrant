@@ -4,6 +4,7 @@ public class Deck {
     public Deck() {
         deckArray = newDeck();
     }
+    public Card[] discard = new Card[0];
 
     public Card[] getDeckArray() {
         return this.deckArray;

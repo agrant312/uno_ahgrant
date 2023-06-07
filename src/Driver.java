@@ -1,30 +1,33 @@
 public class Driver {
+    public static Deck deck = new Deck();
+    public static Player[] players = new Player[4];
+    public static Card activeCard = null;
+    public static Deck discard = new Deck();
+    static Card draw() {
+        if (deck.getDeckArray().length == 0) {
+            System.out.println("The deck has been reshuffled");
+            deck.setDeckArray(deck.shuffle(discard.getDeckArray()));
+            discard.setDeckArray(new Card[0]);
+        }
+        return deck.draw(deck.deckArray);
+    }
     public static void main(String[] args) {
-        Deck deck = new Deck();
-        Player[] players = new Player[4];
-        Card activeCard = null;
-        Deck discard = new Deck();
         discard.setDeckArray(new Card[0]);
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player("Player " + (i + 1));
         }
         deck.deckArray = deck.shuffle(deck.deckArray);
         deck.deal(players);
-        activeCard = deck.draw(deck.deckArray);
+        activeCard = draw();
         System.out.println("The first card is a " + activeCard.toString());
         while (activeCard.getValue() == 14) {
             System.out.println("Redrawing card . . .");
             discard.take(activeCard);
-            activeCard = deck.draw(deck.deckArray);
+            activeCard = draw();
             System.out.println("The new first card is a " + activeCard.toString());
         }
         boolean playing = true;
         while (playing) {
-            if (deck.getDeckArray().length == 0) {
-                System.out.println("The deck has been reshuffled");
-                deck.setDeckArray(deck.shuffle(discard.getDeckArray()));
-                discard.setDeckArray(new Card[0]);
-            }
             for (int i = 0; i < players.length; i++) {
                 ActionCard placeHolder = new ActionCard();
                 boolean endEarly = false;
@@ -51,16 +54,16 @@ public class Driver {
                         }
                         if (activeCard.getValue() == 12) {
                             System.out.println(players[i].getName() + " drew two cards");
-                            players[i].hand.take(deck.draw(deck.deckArray));
-                            players[i].hand.take(deck.draw(deck.deckArray));
+                            players[i].hand.take(draw());
+                            players[i].hand.take(draw());
                             endEarly = true;
                         }
                         if (activeCard.getValue() == 14) {
                             System.out.println(players[i].getName() + " drew four cards");
-                            players[i].hand.take(deck.draw(deck.deckArray));
-                            players[i].hand.take(deck.draw(deck.deckArray));
-                            players[i].hand.take(deck.draw(deck.deckArray));
-                            players[i].hand.take(deck.draw(deck.deckArray));
+                            players[i].hand.take(draw());
+                            players[i].hand.take(draw());
+                            players[i].hand.take(draw());
+                            players[i].hand.take(draw());
                             endEarly = true;
                         }
                         ((ActionCard) activeCard).setActionComplete(true);
@@ -74,7 +77,7 @@ public class Driver {
                         discard.take(hold);
                         System.out.println(players[i].getName() + " played a " + activeCard.toString());
                     } catch (Exception e) {
-                        players[i].hand.take(deck.draw(deck.deckArray));
+                        players[i].hand.take(draw());
                         System.out.println(players[i].getName() + " drew a card");
                         try {
                             activeCard = players[i].hand.pick(hold);
